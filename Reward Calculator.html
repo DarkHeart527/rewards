@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<title>Reward Money Calculator</title>
+		<style>
+			body {
+			 margin: 0px;
+			 background-color: black;
+			}
+			*:focus {
+			 outline: none;
+			}
+			.inputs input:focus {
+			 border-bottom: 2px solid orange;
+			}
+			h1 {
+			 color: white;
+			 text-align: center;
+			 font-size: 50px;
+			}
+			h3 {
+			 color: white;
+			 text-align: center;
+			 font-size: 40px;
+			}
+			.inputs * {
+			 display: block;
+			 width: 100%;
+			 height: 45px;
+			 text-align: center;
+			 color: white;
+			 background-color: transparent;
+			 font-size: 35px;
+			 border: none;
+			 margin-bottom: 2%;
+			 border-bottom: 2px solid transparent;
+			}
+			.inputs .button {
+			 cursor: pointer;
+			 width: 10%;
+			 margin-left: 45%;
+			}
+			.inputs .button:hover {
+			 color: orange;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Reward Calculator</h1>
+		<h3>How to use: <br/>
+		1. Put in info<br/>
+		2. Press Calculate</h3>
+		<div class="inputs">
+			<input id="pointsRequired" placeholder="Points Required to Redeem. Ex: 5000" />
+			<input id="moneyEarn" placeholder="The amount of earned points per offer. Ex: 500" />
+			<input id="pointsPerDay" placeholder="(Optional) Points Earned Per Day" />
+			<div class="button" id="beginCalculation">Calculate</div>
+		</div>
+		<div id="output">
+		</div>
+	</body>
+	<script>
+		document.getElementById('beginCalculation').onclick = function() {
+		 calculate();
+		}
+		var calculate = function() {
+		 var output = document.getElementById('output');
+		 var pR = document.getElementById('pointsRequired');
+		 var mE = document.getElementById('moneyEarn');
+		 var pPD = document.getElementById('pointsPerDay');
+		 var executeType = 'normal';
+		 pR = Number(pR.value);
+		 mE = Number(mE.value);
+		 pPD = Number(pPD.value);
+		 output.innerHTML = '';
+		 if (pPD != 0) {
+		  executeType = 'pointsPerDay';
+		 }
+		 if (pR == '' | pR == null | pR.toString() == 'NaN') {
+		  executeType = 'error';
+		 }
+		 if (mE == '' | mE == null | mE.toString() == 'NaN') {
+		  executeType = 'error';
+		 }
+		 if (executeType == 'normal') {
+		  var conversion = pR/mE;
+		  output.innerHTML += '<h1>You will have to do ' + roundUp(conversion, 0) + ' offers to get your reward</h1>';
+		 } else if (executeType == 'pointsPerDay') {
+		  var conversion = pR/mE;
+		  var time = pR/pPD;
+		  output.innerHTML += '<h1>You will have to do ' + roundUp(conversion, 0) + ' offers to get your reward and it will take ' + roundUp(time, 0) + ' day(s) <b>if</b> you do your offers to the fullest extent.</h1>';
+		 } else {
+		  // Options are not filled out
+		  alert('Some options are not filled out or they are filled out incorrectly');
+		 }
+		}
+		function roundUp(num, precision) {
+		precision = Math.pow(10, precision)
+		return Math.ceil(num * precision) / precision
+		}
+	</script>
+</html>
